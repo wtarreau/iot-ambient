@@ -1,0 +1,1 @@
+../../iot-core/lfs/_init.lua

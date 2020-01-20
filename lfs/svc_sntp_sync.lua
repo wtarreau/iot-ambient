@@ -1,0 +1,1 @@
+../../iot-core/svc/sntp_sync.lua

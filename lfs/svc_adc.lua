@@ -1,0 +1,1 @@
+../../iot-core/svc/adc.lua

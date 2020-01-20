@@ -1,0 +1,1 @@
+../../iot-core/firmware/firmware-3.0.0.lua

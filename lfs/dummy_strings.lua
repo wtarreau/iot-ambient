@@ -1,0 +1,1 @@
+../../iot-core/lfs/dummy_strings.lua

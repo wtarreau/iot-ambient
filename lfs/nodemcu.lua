@@ -1,0 +1,1 @@
+../../iot-core/boot/nodemcu.lua
