@@ -5,6 +5,7 @@ brd_sda=PIN_GP4    gpio.mode(brd_sda, gpio.OUTPUT) gpio.write(brd_sda, 0)
 brd_scl=PIN_GP5    gpio.mode(brd_scl, gpio.OUTPUT) gpio.write(brd_scl, 0)
 brd_dht=PIN_GP0
 brd_btn1=PIN_GP2   gpio.mode(brd_btn1, gpio.INPUT, gpio.PULLUP)
+brd_ldr=PIN_GP15   gpio.mode(brd_ldr, gpio.INPUT, gpio.PULLUP)  gpio.write(brd_ldr, 1)
 
 --brd_pwm=PIN_GP14   gpio.mode(brd_pwm, gpio.OUTPUT) gpio.write(brd_pwm, 0)
 --brd_btn2=PIN_GP13  gpio.mode(brd_btn2, gpio.INPUT, gpio.PULLUP)

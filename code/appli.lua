@@ -2,6 +2,7 @@
 amb_temp_cur=0
 amb_humi_cur=0
 amb_volt_cur=0
+amb_light_cur=0
 
 -- connects to mqtt_srv_ip:mqtt_srv_port
 mqtt_srv_port=mqtt_srv_port or 1883
@@ -14,7 +15,7 @@ amb_node_alias=amb_node_alias or amb_mqtt_id
 amb_timer_int=amb_timer_int or 10000
 
 -- publication cache
-local cache_node_room, cache_node_alias, cache_temp_cur, cache_humi_cur, cache_volt_cur
+local cache_node_room, cache_node_alias, cache_temp_cur, cache_humi_cur, cache_volt_cur, cache_light_cur
 
 local pub_timer
 local amb_mqtt_state=0
@@ -34,6 +35,12 @@ local function amb_read_temp()
 	break
       end
     end
+  end
+end
+
+local function amb_read_ldr()
+  if brd_ldr then
+    amb_light_cur = 1 - gpio.read(brd_ldr)
   end
 end
 
@@ -108,6 +115,7 @@ amb_mqtt_reconnect()
 pub_timer=tmr.create()
 pub_timer:alarm(amb_timer_int,tmr.ALARM_SEMI,function()
   amb_read_temp()
+  amb_read_ldr()
   if adc_mv then amb_volt_cur=adc_mv()/1000 end
   
   if disp then disp:clearBuffer() end
@@ -118,11 +126,12 @@ pub_timer:alarm(amb_timer_int,tmr.ALARM_SEMI,function()
     draw_7seg_str(0,28,string.format("%2.1f°", amb_temp_cur))
     disp:drawStr(0,56,string.format("hum: %2.1f%%", amb_humi_cur))
     if adc_mv then disp:drawStr(0,65,string.format("bat: %1.2fV", amb_volt_cur)) end
-    disp:drawStr(0,74,string.format("mqtt: %s", tostring(conn_states[amb_mqtt_state+1])))
-    disp:drawStr(0,83,string.format("room: %s", tostring(amb_node_room)))
-    disp:drawStr(0,92,string.format("name: %s", tostring(amb_node_alias)))
-    disp:drawStr(0,101,string.format("mo: %s", tostring(amb_env_moment)))
-    disp:drawStr(0,110,string.format("st: %s", tostring(amb_env_state)))
+    disp:drawStr(0,74,string.format("light: %s", tostring(amb_light_cur)))
+    disp:drawStr(0,83,string.format("mqtt: %s", tostring(conn_states[amb_mqtt_state+1])))
+    disp:drawStr(0,92,string.format("room: %s", tostring(amb_node_room)))
+    disp:drawStr(0,101,string.format("name: %s", tostring(amb_node_alias)))
+    disp:drawStr(0,110,string.format("mo: %s", tostring(amb_env_moment)))
+    disp:drawStr(0,119,string.format("st: %s", tostring(amb_env_state)))
   end
 
   if disp then disp:sendBuffer() end
@@ -130,6 +139,7 @@ pub_timer:alarm(amb_timer_int,tmr.ALARM_SEMI,function()
   if cache_temp_cur ~= amb_temp_cur then cache_temp_cur = amb_pub("/temp_cur", amb_temp_cur) end
   if cache_humi_cur ~= amb_humi_cur then cache_humi_cur = amb_pub("/humi_cur", amb_humi_cur) end
   if cache_volt_cur ~= amb_volt_cur then cache_volt_cur = amb_pub("/volt_cur", amb_volt_cur) end
+  if cache_light_cur ~= amb_light_cur then cache_light_cur = amb_pub("/light_state", amb_light_cur) end
   if cache_node_room ~= amb_node_room then cache_node_room = amb_pub("/room", amb_node_room) end
   if cache_node_alias ~= amb_node_alias then cache_node_alias = amb_pub("/alias", amb_node_alias) end
   pub_timer:start()
