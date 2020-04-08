@@ -120,7 +120,7 @@ pub_timer:alarm(amb_timer_int,tmr.ALARM_SEMI,function()
     disp:drawStr(0,60,string.format("%2.1f%% h", amb_humi_cur))
     if adc_mv then disp:drawStr(0,70,string.format("%1.2f Vbat", amb_volt_cur)) end
     disp:drawStr(0,80,string.format("mqtt=%s", tostring(conn_states[amb_mqtt_state+1])))
-    disp:drawStr(0,90,string.format("%s", tostring(amb_node_room)))
+    disp:drawStr(0,90,string.format("room=%s", tostring(amb_node_room)))
   end
 
   if disp then disp:sendBuffer() end
