@@ -23,18 +23,16 @@ local conn_states={"DIS", "CON", "EST"}
 
 local function amb_read_temp()
   local status, temp, humi
+  local retry
 
   if brd_dht then
-    status,temp,humi=dht.readxx(brd_dht)
-    if status ~= dht.OK or temp < -40 or temp > 80 then
+    for retry = 1,20 do
       status,temp,humi=dht.readxx(brd_dht)
-    end
-    if status ~= dht.OK or temp < -40 or temp > 80 then
-      status,temp,humi=dht.readxx(brd_dht)
-    end
-    if status == dht.OK and temp >= -40 and temp <= 80 then
-      amb_temp_cur=temp
-      amb_humi_cur=humi
+      if status == dht.OK and temp >= -40 and temp <= 80 then
+        amb_temp_cur=temp
+        amb_humi_cur=humi
+	break
+      end
     end
   end
 end
