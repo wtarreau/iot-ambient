@@ -117,12 +117,12 @@ pub_timer:alarm(amb_timer_int,tmr.ALARM_SEMI,function()
     draw_7seg_str(0,0,string.format("%02d:%02d",t["hour"],t["min"]))
     draw_7seg_str(0,28,string.format("%2.1f°", amb_temp_cur))
     disp:drawStr(0,56,string.format("hum: %2.1f%%", amb_humi_cur))
-    if adc_mv then disp:drawStr(0,66,string.format("bat: %1.2fV", amb_volt_cur)) end
-    disp:drawStr(0,76,string.format("mqtt: %s", tostring(conn_states[amb_mqtt_state+1])))
-    disp:drawStr(0,86,string.format("room: %s", tostring(amb_node_room)))
-    disp:drawStr(0,96,string.format("name: %s", tostring(amb_node_alias)))
-    disp:drawStr(0,106,string.format("mo: %s", tostring(amb_env_moment)))
-    disp:drawStr(0,116,string.format("st: %s", tostring(amb_env_state)))
+    if adc_mv then disp:drawStr(0,65,string.format("bat: %1.2fV", amb_volt_cur)) end
+    disp:drawStr(0,74,string.format("mqtt: %s", tostring(conn_states[amb_mqtt_state+1])))
+    disp:drawStr(0,83,string.format("room: %s", tostring(amb_node_room)))
+    disp:drawStr(0,92,string.format("name: %s", tostring(amb_node_alias)))
+    disp:drawStr(0,101,string.format("mo: %s", tostring(amb_env_moment)))
+    disp:drawStr(0,110,string.format("st: %s", tostring(amb_env_state)))
   end
 
   if disp then disp:sendBuffer() end
