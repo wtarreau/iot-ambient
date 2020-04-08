@@ -19,6 +19,7 @@ local cache_node_room, cache_node_alias, cache_temp_cur, cache_humi_cur, cache_v
 local pub_timer
 local amb_mqtt_state=0
 local amb_mqtt
+local conn_states={"DIS", "CON", "EST"}
 
 local function amb_read_temp()
   local status, temp, humi
@@ -118,7 +119,7 @@ pub_timer:alarm(amb_timer_int,tmr.ALARM_SEMI,function()
     draw_7seg_str(0,30,string.format("%2.1f°", amb_temp_cur))
     disp:drawStr(0,60,string.format("%2.1f%% h", amb_humi_cur))
     if adc_mv then disp:drawStr(0,70,string.format("%1.2f Vbat", amb_volt_cur)) end
-    disp:drawStr(0,80,string.format("st=%s", tostring(amb_mqtt_state)))
+    disp:drawStr(0,80,string.format("mqtt=%s", tostring(conn_states[amb_mqtt_state+1])))
     disp:drawStr(0,90,string.format("%s", tostring(amb_node_room)))
   end
 
