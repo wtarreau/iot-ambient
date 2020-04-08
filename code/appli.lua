@@ -121,6 +121,7 @@ pub_timer:alarm(amb_timer_int,tmr.ALARM_SEMI,function()
     if adc_mv then disp:drawStr(0,66,string.format("bat: %1.2fV", amb_volt_cur)) end
     disp:drawStr(0,76,string.format("mqtt: %s", tostring(conn_states[amb_mqtt_state+1])))
     disp:drawStr(0,86,string.format("room: %s", tostring(amb_node_room)))
+    disp:drawStr(0,96,string.format("name: %s", tostring(amb_node_alias)))
   end
 
   if disp then disp:sendBuffer() end
