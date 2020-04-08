@@ -84,6 +84,7 @@ local function mqtt_message_cb(s,t,v)
 
   --print("topic " .. t .. " value " .. v)
   if t == amb_mqtt_topic .. "/env/state" then amb_env_state=v end
+  if t == amb_mqtt_topic .. "/env/moment" then amb_env_moment=v end
 
   if t:sub(1,pfxlen) ~= amb_mqtt_topic .. "/cmd/" .. amb_mqtt_id .. "/" then return end
   if v == nil then return end
@@ -122,6 +123,8 @@ pub_timer:alarm(amb_timer_int,tmr.ALARM_SEMI,function()
     disp:drawStr(0,76,string.format("mqtt: %s", tostring(conn_states[amb_mqtt_state+1])))
     disp:drawStr(0,86,string.format("room: %s", tostring(amb_node_room)))
     disp:drawStr(0,96,string.format("name: %s", tostring(amb_node_alias)))
+    disp:drawStr(0,106,string.format("mo: %s", tostring(amb_env_moment)))
+    disp:drawStr(0,116,string.format("st: %s", tostring(amb_env_state)))
   end
 
   if disp then disp:sendBuffer() end
